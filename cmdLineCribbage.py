@@ -26,6 +26,7 @@ def aiPutsCardsInCrib(hands, crib, score):
     print("\n")
     printOutGroupOfCards(cardsToPutInCrib)
     for x in cardsToPutInCrib:
+        crib.append(x)
         hands[1].remove(x)
     print("\n")
     printOutGroupOfCards(hands[1])
