@@ -29,8 +29,15 @@ def aiPutsCardsInCrib(hands, crib, score):
         crib.append(x)
         hands[1].remove(x)
     print("\n")
-    printOutGroupOfCards(hands[1])
-
+    pegging(hands, crib, score)
+def pegging(hands, crib, score):
+    print("\n")
+    for x in hands:
+        printOutGroupOfCards(x)
+        print("\n")
+    printOutGroupOfCards(crib)
+    print("\n")
+    print(score)
 
 
 def printOutGroupOfCards(cards):
