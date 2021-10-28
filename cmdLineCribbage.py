@@ -2,13 +2,23 @@ from createDeck import Deck
 from createHands import Hands
 from checkCribbageScore import CheckHandScoreCribbage
 from findBestCribbageHand import findBestCribbageHand
+import numpy
+
+
+
 def main():
     score = [0,0]
-    dealAndShowCards(score)
+    dealer = False
+    if numpy.random.rand() >= .5:
+        dealer = True
+    dealAndShowCards(score, dealer)
 
-def dealAndShowCards(score):
+
+
+def dealAndShowCards(score, dealer):
     deck = Deck.makeShuffledDeck()
     hands = Hands.dealFromCreatedDeck(deck, 2, 6)
+    cutCard = Hands.dealFromCreatedDeck(deck, 1, 1)
     print("PLAYER HAND:")
     i = 1
     printOutGroupOfCards(hands[0])
@@ -19,8 +29,11 @@ def dealAndShowCards(score):
         hands[0].pop(int(x)-i)
         i+= 1
     printOutGroupOfCards(hands[0])
-    aiPutsCardsInCrib(hands, crib, score)
-def aiPutsCardsInCrib(hands, crib, score):
+    aiPutsCardsInCrib(hands, crib, score, dealer, cutCard)
+
+
+
+def aiPutsCardsInCrib(hands, crib, score, dealer, cutCard):
     cardsToPutInCrib = findBestCribbageHand(hands[1]).findWhichCardsToRemove()
     printOutGroupOfCards(hands[1])
     print("\n")
@@ -29,15 +42,45 @@ def aiPutsCardsInCrib(hands, crib, score):
         crib.append(x)
         hands[1].remove(x)
     print("\n")
-    pegging(hands, crib, score)
-def pegging(hands, crib, score):
+    pegging(hands, crib, score, dealer, cutCard)
+
+
+
+def checkForNobs(dealer, cutCard, score):
+    pass
+
+
+
+def pegging(hands, crib, score, dealer, cutCard):
+    checkForNobs(dealer, cutCard, score)
+    playerHand = hands[0]
+    oppHand = hands[1]
     print("\n")
-    for x in hands:
-        printOutGroupOfCards(x)
-        print("\n")
-    printOutGroupOfCards(crib)
-    print("\n")
-    print(score)
+    print("PLAYER HAND:")
+    printOutGroupOfCards(playerHand)
+    currentCount = 0
+    while True:
+        if playerHand == [] & oppHand == []:
+            pass
+        else:
+            if dealer:
+                askPlayerToPlayACard(playerHand, currentCount)
+
+
+
+def decideWhichCardToPlay(currentStack, hand):
+    pass
+
+
+
+def askPlayerToPlayACard(hand, currentCount):
+    pass
+
+
+
+def askAIToPlayACard(hand, currentCount):
+    pass
+
 
 
 def printOutGroupOfCards(cards):
@@ -54,5 +97,8 @@ def printOutGroupOfCards(cards):
             tempSuit = "\u2663"
         print(f"{i}.     {tempSuit} {x['face']}")
         i+= 1
+
+
+
 if __name__=="__main__":
     main()
